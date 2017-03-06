@@ -1,0 +1,13 @@
+<@row>
+<h1>#i18n{myfiles.myfiles.title}</h1>
+<#if files_list?size = 0>
+    #i18n{myfiles.myfiles.empty}
+<#else>
+<ul>
+    <#list files_list as file>
+    <li>${file}</li>
+    </#list>
+</ul>
+</#if>
+</@row>
+  
