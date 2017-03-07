@@ -1,14 +1,19 @@
 package fr.paris.lutece.plugins.myfiles.service;
 
+import fr.paris.lutece.plugins.myfiles.business.MyFileData;
+import fr.paris.lutece.plugins.myfiles.business.MyFileLink;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import io.minio.MinioClient;
+import io.minio.ObjectStat;
 import io.minio.Result;
 import io.minio.errors.ErrorResponseException;
 import io.minio.errors.InsufficientDataException;
 import io.minio.errors.InternalException;
+import io.minio.errors.InvalidArgumentException;
 import io.minio.errors.InvalidBucketNameException;
 import io.minio.errors.InvalidEndpointException;
+import io.minio.errors.InvalidExpiresRangeException;
 import io.minio.errors.InvalidPortException;
 import io.minio.errors.NoResponseException;
 import io.minio.messages.Item;
@@ -93,16 +98,24 @@ public class FileStorageService
         return _singleton;
     }
 
-    public List<String> getFiles( String strUserId ) throws NoStorageException, InvalidBucketNameException, NoSuchAlgorithmException, InsufficientDataException, IOException, InvalidKeyException, NoResponseException, XmlPullParserException, ErrorResponseException, InternalException
+    public List<MyFileLink> getFiles( String strUserId ) throws NoStorageException, InvalidBucketNameException, NoSuchAlgorithmException, InsufficientDataException, IOException, InvalidKeyException, NoResponseException, XmlPullParserException, ErrorResponseException, InternalException, InvalidExpiresRangeException
     {
-        List<String> listFiles = new ArrayList<>();
+        List<MyFileLink> listFiles = new ArrayList<>();
         String strBucketName = strUserId;
         boolean bExist = _client.bucketExists( strBucketName );
         if( bExist )
         {
             for( Result<Item> result : _client.listObjects( strBucketName ))
             {
-                listFiles.add( result.get().objectName() );
+                Item item = result.get();
+                MyFileLink myFile = new MyFileLink();
+                myFile.setName( item.objectName() );
+                ObjectStat stat = _client.statObject( strBucketName, item.objectName() );
+                System.out.println( stat );
+                myFile.setContentType( stat.contentType() );
+                String strUrl = _client.presignedGetObject( strBucketName, item.objectName() , 60 * 60 * 24 );
+                myFile.setUrl( strUrl );
+                listFiles.add( myFile );
             }
         }
         else
@@ -115,6 +128,12 @@ public class FileStorageService
     public void createStorage( String strName )throws InvalidBucketNameException, NoSuchAlgorithmException, InsufficientDataException, IOException, InvalidKeyException, NoResponseException, XmlPullParserException, ErrorResponseException, InternalException
     {
         _client.makeBucket( strName );
+    }
+
+    public void addFile( String strUserId, MyFileData myFileData ) throws InvalidArgumentException, InvalidBucketNameException, NoSuchAlgorithmException, InsufficientDataException, IOException, InvalidKeyException, NoResponseException, XmlPullParserException, ErrorResponseException, InternalException
+    {
+        String strBucketName = strUserId;
+        _client.putObject( strBucketName, myFileData.getName(), myFileData.getInputstream(), myFileData.getSize(), myFileData.getContentType() );
     }
     
 }

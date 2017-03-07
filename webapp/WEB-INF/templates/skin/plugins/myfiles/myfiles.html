@@ -1,13 +1,46 @@
 <@row>
+
 <h1>#i18n{myfiles.myfiles.title}</h1>
+
+
+<div class="col-sm-6 col-sm-push-6">
+    <form action="jsp/site/Portal.jsp" method="post"  enctype="multipart/form-data">
+        <input type="hidden" name="page" value="myfiles" />
+        <input type="hidden" name="action" value="addFile" />
+        <input class="filestyle" type="file" id="file" name="file" />
+        <button class="btn btn-primary" type="submit">
+            <@icon style="plus" />
+            #i18n{myfiles.myfiles.buttonAdd}
+        </button>
+    </form>
+</div>
+
+<div class="col-sm-6 col-sm-pull-6">
+
 <#if files_list?size = 0>
     #i18n{myfiles.myfiles.empty}
 <#else>
-<ul>
-    <#list files_list as file>
-    <li>${file}</li>
-    </#list>
-</ul>
+    <@listGroup>
+        <#list files_list as file>
+        <li class="${listElementClass}">
+            <#assign class="fa fa-file-o"> 
+            <#if file.contentType??>
+                <#switch file.contentType>
+                    <#case "image/gif" > 
+                    <#case "image/jpeg" >
+                    <#case "image/png" >
+                        <#assign class="fa fa-file-image-o">
+                        <#break>
+                    <#case "application/pdf" > 
+                        <#assign class="fa fa-file-pdf-o">
+                        <#break>
+                </#switch>
+            </#if>
+        <span class="${class}"> </span> &nbsp; <a href="${file.url}"> ${file.name} </a>
+        </li>
+        </#list>
+    </@listGroup>
 </#if>
+</div>
 </@row>
   

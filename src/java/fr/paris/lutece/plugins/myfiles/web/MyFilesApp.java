@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.plugins.myfiles.web;
 
+import fr.paris.lutece.plugins.myfiles.business.MyFile;
+import fr.paris.lutece.plugins.myfiles.business.MyFileData;
+import fr.paris.lutece.plugins.myfiles.business.MyFileLink;
 import fr.paris.lutece.plugins.myfiles.service.FileStorageService;
 import fr.paris.lutece.plugins.myfiles.service.NoStorageException;
 import fr.paris.lutece.portal.service.security.LuteceUser;
@@ -44,20 +47,23 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
+import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import io.minio.errors.ErrorResponseException;
 import io.minio.errors.InsufficientDataException;
 import io.minio.errors.InternalException;
+import io.minio.errors.InvalidArgumentException;
 import io.minio.errors.InvalidBucketNameException;
+import io.minio.errors.InvalidExpiresRangeException;
 import io.minio.errors.NoResponseException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.fileupload.FileItem;
 import org.xmlpull.v1.XmlPullParserException;
 
 /**
@@ -70,6 +76,8 @@ public class MyFilesApp extends MVCApplication
     private static final String TEMPLATE_CREATE_STORAGE = "/skin/plugins/myfiles/create_storage.html";
     private static final String MARK_FILES_LIST = "files_list";
     private static final String ACTION_CREATE_STORAGE = "createStorage";
+    private static final String ACTION_ADD_FILE = "addFile";
+    private static final String PARAMETER_FILE = "file";
     private static final String VIEW_HOME = "home";
     
     /**
@@ -85,7 +93,7 @@ public class MyFilesApp extends MVCApplication
        
         try
         {
-            List<String> listFiles = FileStorageService.instance().getFiles( user.getName() );
+            List<MyFileLink> listFiles = FileStorageService.instance().getFiles( user.getName() );
             Map<String,Object> model = getModel();
 
             model.put( MARK_FILES_LIST , listFiles );
@@ -95,7 +103,7 @@ public class MyFilesApp extends MVCApplication
         {
             return getXPage( TEMPLATE_CREATE_STORAGE, request.getLocale(  ) );
         }
-        catch( InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException | NoResponseException | XmlPullParserException | ErrorResponseException | InternalException ex )
+        catch( InvalidExpiresRangeException | InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException | NoResponseException | XmlPullParserException | ErrorResponseException | InternalException ex )
         {
             AppLogService.error( "MyFIles - Error getting files : " + ex.getMessage() , ex );
         }
@@ -117,6 +125,39 @@ public class MyFilesApp extends MVCApplication
         
         return redirectView( request, VIEW_HOME );
     }
+    
+    
+    @Action( ACTION_ADD_FILE )
+    public XPage doAddFile( HttpServletRequest request ) throws UserNotSignedException
+    {
+        LuteceUser user = getUser( request );
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
+
+        if( ( fileItem != null ) && ( fileItem.getName() != null ) && !"".equals( fileItem.getName() ) )
+        {
+            try
+            {
+                MyFileData myFileData = new MyFileData();
+                myFileData.setName( fileItem.getName() );
+                myFileData.setContentType( fileItem.getContentType() );
+                myFileData.setSize( fileItem.getSize() );
+                myFileData.setInputstream( new ByteArrayInputStream( fileItem.get() ));
+                FileStorageService.instance().addFile( user.getName(), myFileData );
+            }
+            catch( InvalidArgumentException | InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException | NoResponseException | XmlPullParserException | ErrorResponseException | InternalException ex )
+            {
+                AppLogService.error( "MyFiles - Error creating storage : " + ex.getMessage(), ex );
+            }
+
+        }
+        else
+        {
+        }
+        return redirectView( request, VIEW_HOME );
+  
+    }
+    
     
     private LuteceUser getUser( HttpServletRequest request ) throws UserNotSignedException
     {
