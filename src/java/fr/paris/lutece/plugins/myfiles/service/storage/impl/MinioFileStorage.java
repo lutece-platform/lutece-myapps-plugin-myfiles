@@ -67,9 +67,9 @@ import org.xmlpull.v1.XmlPullParserException;
 public class MinioFileStorage implements FileStorage
 {
 
-    private static final String PROPERTY_SERVER_URL = "myfiles.server.url";
-    private static final String PROPERTY_ACCESS_KEY = "myfiles.server.access_key";
-    private static final String PROPERTY_SECRET_KEY = "myfiles.server.secret_key";
+    private static final String PROPERTY_SERVER_URL = "myfiles.minio.server.url";
+    private static final String PROPERTY_ACCESS_KEY = "myfiles.minio.server.access_key";
+    private static final String PROPERTY_SECRET_KEY = "myfiles.minio.server.secret_key";
 
     private static MinioClient _client;
 

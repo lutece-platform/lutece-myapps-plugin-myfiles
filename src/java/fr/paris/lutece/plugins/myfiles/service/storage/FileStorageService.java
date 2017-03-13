@@ -39,7 +39,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 /**
  * FileStorageService
  */
-public abstract class FileStorageService
+public final class FileStorageService
 {
     private static final String BEAN_STORAGE = "myfiles.storage";
     private static FileStorage _storage;
@@ -57,7 +57,7 @@ public abstract class FileStorageService
      */
     public static FileStorage instance( )
     {
-        synchronized( _storage )
+        synchronized( FileStorageService.class )
         {    
             if ( _storage == null )
             {

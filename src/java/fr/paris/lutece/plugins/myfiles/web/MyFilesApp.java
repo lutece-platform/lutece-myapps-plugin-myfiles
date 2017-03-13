@@ -77,7 +77,7 @@ public class MyFilesApp extends MVCApplication
      * @param request
      *            The HTTP request
      * @return The view
-     * @throws UserNotSignedException
+     * @throws UserNotSignedException If the user is not signed
      */
     @View( value = VIEW_HOME, defaultView = true )
     public XPage viewHome( HttpServletRequest request ) throws UserNotSignedException
