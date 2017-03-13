@@ -1,9 +1,5 @@
-package fr.paris.lutece.plugins.myfiles.business;
-
-import java.io.InputStream;
-
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,77 +32,24 @@ import java.io.InputStream;
  * License 1.0
  */
 
+package fr.paris.lutece.plugins.myfiles.service.storage;
+
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+
 /**
- * MyFile
+ * FileStorageService
  */
-public class MyFile
+public class FileStorageService
 {
-    // Variables declarations
-    private String _strName;
-    private String _strContentType;
-    private long _nSize;
+    private static final String BEAN_STORAGE = "myfiles.storage";
+    private static FileStorage _storage;
 
-    /**
-     * Returns the Name
-     * 
-     * @return The Name
-     */
-    public String getName( )
+    public static FileStorage instance( )
     {
-        return _strName;
+        if ( _storage == null )
+        {
+            _storage = SpringContextService.getBean( BEAN_STORAGE );
+        }
+        return _storage;
     }
-
-    /**
-     * Sets the Name
-     * 
-     * @param strName
-     *            The Name
-     */
-    public void setName( String strName )
-    {
-        _strName = strName;
-    }
-
-    /**
-     * Returns the ContentType
-     * 
-     * @return The ContentType
-     */
-    public String getContentType( )
-    {
-        return _strContentType;
-    }
-
-    /**
-     * Sets the ContentType
-     * 
-     * @param strContentType
-     *            The ContentType
-     */
-    public void setContentType( String strContentType )
-    {
-        _strContentType = strContentType;
-    }
-
-    /**
-     * Returns the Size
-     * 
-     * @return The Size
-     */
-    public long getSize( )
-    {
-        return _nSize;
-    }
-
-    /**
-     * Sets the Size
-     * 
-     * @param nSize
-     *            The Size
-     */
-    public void setSize( long nSize )
-    {
-        _nSize = nSize;
-    }
-
 }

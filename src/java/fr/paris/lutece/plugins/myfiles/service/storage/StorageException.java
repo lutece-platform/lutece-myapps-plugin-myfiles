@@ -1,7 +1,3 @@
-package fr.paris.lutece.plugins.myfiles.business;
-
-import java.io.InputStream;
-
 /*
  * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
@@ -36,77 +32,38 @@ import java.io.InputStream;
  * License 1.0
  */
 
+package fr.paris.lutece.plugins.myfiles.service.storage;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+
 /**
- * MyFile
+ * StorageException
  */
-public class MyFile
+public class StorageException extends Exception
 {
-    // Variables declarations
-    private String _strName;
-    private String _strContentType;
-    private long _nSize;
-
     /**
-     * Returns the Name
+     * Contructor
      * 
-     * @return The Name
+     * @param strMessage
+     *            The message
      */
-    public String getName( )
+    public StorageException( String strMessage )
     {
-        return _strName;
+        super( strMessage );
+        AppLogService.error( strMessage );
     }
 
     /**
-     * Sets the Name
+     * Contructor
      * 
-     * @param strName
-     *            The Name
+     * @param strMessage
+     *            The message
+     * @param exception
+     *            The exception
      */
-    public void setName( String strName )
+    public StorageException( String strMessage, Throwable exception )
     {
-        _strName = strName;
+        super( strMessage, exception );
+        AppLogService.error( strMessage, exception );
     }
-
-    /**
-     * Returns the ContentType
-     * 
-     * @return The ContentType
-     */
-    public String getContentType( )
-    {
-        return _strContentType;
-    }
-
-    /**
-     * Sets the ContentType
-     * 
-     * @param strContentType
-     *            The ContentType
-     */
-    public void setContentType( String strContentType )
-    {
-        _strContentType = strContentType;
-    }
-
-    /**
-     * Returns the Size
-     * 
-     * @return The Size
-     */
-    public long getSize( )
-    {
-        return _nSize;
-    }
-
-    /**
-     * Sets the Size
-     * 
-     * @param nSize
-     *            The Size
-     */
-    public void setSize( long nSize )
-    {
-        _nSize = nSize;
-    }
-
 }

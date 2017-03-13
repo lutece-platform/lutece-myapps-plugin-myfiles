@@ -32,31 +32,32 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.plugins.myfiles.business;
 
 /**
  * MyFileLink
  */
-public class MyFileLink extends MyFile 
+public class MyFileLink extends MyFile
 {
-    // Variables declarations 
+    // Variables declarations
     private String _strUrl;
-    
-    
-       /**
-        * Returns the Url
-        * @return The Url
-        */ 
-    public String getUrl()
+
+    /**
+     * Returns the Url
+     * 
+     * @return The Url
+     */
+    public String getUrl( )
     {
         return _strUrl;
     }
-    
-       /**
-        * Sets the Url
-        * @param strUrl The Url
-        */ 
+
+    /**
+     * Sets the Url
+     * 
+     * @param strUrl
+     *            The Url
+     */
     public void setUrl( String strUrl )
     {
         _strUrl = strUrl;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,12 +32,58 @@
  * License 1.0
  */
 
+package fr.paris.lutece.plugins.myfiles.service.storage;
 
-package fr.paris.lutece.plugins.myfiles.service;
+import fr.paris.lutece.plugins.myfiles.business.MyFileData;
+import fr.paris.lutece.plugins.myfiles.business.MyFileLink;
+import java.util.List;
 
 /**
- * NoStorageException
+ * FileStorage
  */
-public class NoStorageException extends Exception
+public interface FileStorage
 {
+
+    /**
+     * Add a file to a storage space of a given user
+     * 
+     * @param strUserId
+     *            The user ID
+     * @param myFileData
+     *            File data
+     * @throws StorageException
+     */
+    void addFile( String strUserId, MyFileData myFileData ) throws StorageException;
+
+    /**
+     * Create a storage for agiven user
+     * 
+     * @param strNameId
+     *            The User ID
+     * @throws StorageException
+     */
+    void createStorage( String strNameId ) throws StorageException;
+
+    /**
+     * Gets all files for a given user
+     * 
+     * @param strUserId
+     *            The user ID
+     * @return The lest of files
+     * @throws NoStorageException
+     * @throws StorageException
+     */
+    List<MyFileLink> getFiles( String strUserId ) throws NoStorageException, StorageException;
+
+    /**
+     * Remove a file from the storage space of a given user
+     * 
+     * @param strUserId
+     *            The User ID
+     * @param strFilename
+     *            The Filename
+     * @throws StorageException
+     */
+    void removeFile( String strUserId, String strFilename ) throws StorageException;
+
 }

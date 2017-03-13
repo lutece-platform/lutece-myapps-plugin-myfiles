@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.plugins.myfiles.business;
 
 import java.io.InputStream;
@@ -43,20 +42,23 @@ import java.io.InputStream;
 public class MyFileData extends MyFile
 {
     private InputStream _inputstream;
-    
-       /**
-        * Returns the Inputstream
-        * @return The Inputstream
-        */ 
-    public InputStream getInputstream()
+
+    /**
+     * Returns the Inputstream
+     * 
+     * @return The Inputstream
+     */
+    public InputStream getInputstream( )
     {
         return _inputstream;
     }
-    
-       /**
-        * Sets the Inputstream
-        * @param inputstream The Inputstream
-        */ 
+
+    /**
+     * Sets the Inputstream
+     * 
+     * @param inputstream
+     *            The Inputstream
+     */
     public void setInputstream( InputStream inputstream )
     {
         _inputstream = inputstream;
