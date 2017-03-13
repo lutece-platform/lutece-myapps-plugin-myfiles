@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,6 +103,12 @@ public class MyFilesApp extends MVCApplication
         return null;
     }
 
+    /**
+     * Create a storage for the current user
+     * @param request The HTTP request
+     * @return XPage
+     * @throws UserNotSignedException If the user is not signed 
+     */
     @Action( ACTION_CREATE_STORAGE )
     public XPage doCreateStorage( HttpServletRequest request ) throws UserNotSignedException
     {
@@ -119,6 +125,12 @@ public class MyFilesApp extends MVCApplication
         return redirectView( request, VIEW_HOME );
     }
 
+    /**
+     * Add file to the storage of the current user
+     * @param request The HTTP request
+     * @return XPage
+     * @throws UserNotSignedException If the user is not signed 
+     */
     @Action( ACTION_ADD_FILE )
     public XPage doAddFile( HttpServletRequest request ) throws UserNotSignedException
     {
@@ -143,13 +155,17 @@ public class MyFilesApp extends MVCApplication
             }
 
         }
-        else
-        {
-        }
+
         return redirectView( request, VIEW_HOME );
 
     }
 
+    /**
+     * Remove file from the storage of the current user
+     * @param request The HTTP request
+     * @return XPage
+     * @throws UserNotSignedException If the user is not signed 
+     */
     @Action( ACTION_REMOVE_FILE )
     public XPage doRemoveFile( HttpServletRequest request ) throws UserNotSignedException
     {
@@ -167,6 +183,12 @@ public class MyFilesApp extends MVCApplication
 
     }
 
+    /**
+     * Get the current connected user 
+     * @param request The HTTP request
+     * @return The user
+     * @throws UserNotSignedException If the user is not signed
+     */
     private LuteceUser getUser( HttpServletRequest request ) throws UserNotSignedException
     {
         LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );

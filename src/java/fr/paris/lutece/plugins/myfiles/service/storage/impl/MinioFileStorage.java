@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -111,7 +111,6 @@ public class MinioFileStorage implements FileStorage
                     MyFileLink myFile = new MyFileLink( );
                     myFile.setName( item.objectName( ) );
                     ObjectStat stat = _client.statObject( strBucketName, item.objectName( ) );
-                    System.out.println( stat );
                     myFile.setContentType( stat.contentType( ) );
                     String strUrl = _client.presignedGetObject( strBucketName, item.objectName( ), 60 * 60 * 24 );
                     myFile.setUrl( strUrl );

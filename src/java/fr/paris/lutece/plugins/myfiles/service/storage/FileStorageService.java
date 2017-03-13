@@ -39,16 +39,30 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 /**
  * FileStorageService
  */
-public class FileStorageService
+public abstract class FileStorageService
 {
     private static final String BEAN_STORAGE = "myfiles.storage";
     private static FileStorage _storage;
 
+    /**
+     * Private constructor
+     */
+    private FileStorageService()
+    {
+    }
+    
+    /**
+     * Get the unique instance
+     * @return The instance
+     */
     public static FileStorage instance( )
     {
-        if ( _storage == null )
-        {
-            _storage = SpringContextService.getBean( BEAN_STORAGE );
+        synchronized( _storage )
+        {    
+            if ( _storage == null )
+            {
+                _storage = SpringContextService.getBean( BEAN_STORAGE );
+            }
         }
         return _storage;
     }

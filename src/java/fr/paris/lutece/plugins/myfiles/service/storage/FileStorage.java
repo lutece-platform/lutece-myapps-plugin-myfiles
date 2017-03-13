@@ -51,7 +51,7 @@ public interface FileStorage
      *            The user ID
      * @param myFileData
      *            File data
-     * @throws StorageException
+     * @throws StorageException If an error occurs during the storage access
      */
     void addFile( String strUserId, MyFileData myFileData ) throws StorageException;
 
@@ -60,7 +60,7 @@ public interface FileStorage
      * 
      * @param strNameId
      *            The User ID
-     * @throws StorageException
+     * @throws StorageException If an error occurs during the storage access
      */
     void createStorage( String strNameId ) throws StorageException;
 
@@ -70,8 +70,8 @@ public interface FileStorage
      * @param strUserId
      *            The user ID
      * @return The lest of files
-     * @throws NoStorageException
-     * @throws StorageException
+     * @throws NoStorageException If no storage available for the user
+     * @throws StorageException  If an error occurs during the storage access
      */
     List<MyFileLink> getFiles( String strUserId ) throws NoStorageException, StorageException;
 
@@ -82,7 +82,7 @@ public interface FileStorage
      *            The User ID
      * @param strFilename
      *            The Filename
-     * @throws StorageException
+     * @throws StorageException If an error occurs during the storage access
      */
     void removeFile( String strUserId, String strFilename ) throws StorageException;
 

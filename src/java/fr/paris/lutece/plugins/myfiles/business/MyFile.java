@@ -1,9 +1,5 @@
-package fr.paris.lutece.plugins.myfiles.business;
-
-import java.io.InputStream;
-
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +31,8 @@ import java.io.InputStream;
  *
  * License 1.0
  */
+
+package fr.paris.lutece.plugins.myfiles.business;
 
 /**
  * MyFile
