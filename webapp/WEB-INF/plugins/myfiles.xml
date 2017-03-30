@@ -34,4 +34,14 @@
     <!-- Portlet parameters -->
     <portlets>
    </portlets>
+
+    <!-- Servlets -->
+    <servlets>
+    	<servlet>
+    		<servlet-name>Download</servlet-name>
+    		<servlet-class>fr.paris.lutece.plugins.myfiles.web.servlet.Download</servlet-class>
+    		<url-pattern>/servlet/plugins/myfiles/download</url-pattern>
+    	</servlet>
+    </servlets>
+
 </plug-in>

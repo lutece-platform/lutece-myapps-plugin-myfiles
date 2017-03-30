@@ -41,6 +41,7 @@ import fr.paris.lutece.plugins.myfiles.service.storage.NoStorageException;
 import fr.paris.lutece.plugins.myfiles.service.storage.StorageException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.url.UrlItem;
 import io.minio.MinioClient;
 import io.minio.ObjectStat;
 import io.minio.Result;
@@ -50,11 +51,11 @@ import io.minio.errors.InternalException;
 import io.minio.errors.InvalidArgumentException;
 import io.minio.errors.InvalidBucketNameException;
 import io.minio.errors.InvalidEndpointException;
-import io.minio.errors.InvalidExpiresRangeException;
 import io.minio.errors.InvalidPortException;
 import io.minio.errors.NoResponseException;
 import io.minio.messages.Item;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -70,6 +71,10 @@ public class MinioFileStorage implements FileStorage
     private static final String PROPERTY_SERVER_URL = "myfiles.minio.server.url";
     private static final String PROPERTY_ACCESS_KEY = "myfiles.minio.server.access_key";
     private static final String PROPERTY_SECRET_KEY = "myfiles.minio.server.secret_key";
+
+    private static final String PATH_SERVLET_DOWNLOAD = "servlet/plugins/myfiles/download";
+
+    private static final String PARAMETER_FILENAME = "filename";
 
     private static MinioClient _client;
 
@@ -102,6 +107,7 @@ public class MinioFileStorage implements FileStorage
         try
         {
             String strBucketName = strUserId.toLowerCase();
+            UrlItem urlItem = new UrlItem( PATH_SERVLET_DOWNLOAD );
             boolean bExist = _client.bucketExists( strBucketName );
             if ( bExist )
             {
@@ -112,7 +118,8 @@ public class MinioFileStorage implements FileStorage
                     myFile.setName( item.objectName( ) );
                     ObjectStat stat = _client.statObject( strBucketName, item.objectName( ) );
                     myFile.setContentType( stat.contentType( ) );
-                    String strUrl = _client.presignedGetObject( strBucketName, item.objectName( ), 60 * 60 * 24 );
+                    urlItem.addParameter( PARAMETER_FILENAME, item.objectName(  ) );
+                    String strUrl = urlItem.getUrl(  );
                     myFile.setUrl( strUrl );
                     listFiles.add( myFile );
                 }
@@ -122,13 +129,49 @@ public class MinioFileStorage implements FileStorage
                 throw new NoStorageException( );
             }
         }
-        catch( InvalidExpiresRangeException | InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException
+        catch( InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException
                 | InvalidKeyException | NoResponseException | XmlPullParserException | ErrorResponseException | InternalException ex )
         {
             throw new StorageException( "Error getting files : " + ex.getMessage( ), ex );
         }
 
         return listFiles;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public MyFileData getFile( String strUserId, String strFilename ) throws NoStorageException, StorageException
+    {       
+        MyFileData myFile = null ;
+        
+        try
+        {
+            String strBucketName = strUserId;
+            boolean bExist = _client.bucketExists( strBucketName );
+            if ( bExist )
+            {
+                myFile = new MyFileData(  );
+                ObjectStat stat = _client.statObject( strBucketName, strFilename );
+                myFile.setName( strFilename );
+                myFile.setContentType( stat.contentType( ) );
+                myFile.setSize( stat.length(  ) );
+                InputStream inputStream = _client.getObject( strBucketName, strFilename );
+                myFile.setInputstream( inputStream );
+            }
+            else
+            {
+                throw new NoStorageException( );
+            }
+        }
+        catch( InvalidArgumentException | InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException | NoResponseException
+                | XmlPullParserException | ErrorResponseException | InternalException ex )
+        {
+            throw new StorageException( "Error getting file : " + ex.getMessage( ), ex );
+        }
+        
+        return myFile;
     }
 
     /**
