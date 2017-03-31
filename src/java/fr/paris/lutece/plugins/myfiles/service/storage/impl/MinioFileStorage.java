@@ -118,6 +118,7 @@ public class MinioFileStorage implements FileStorage
                     myFile.setName( item.objectName( ) );
                     ObjectStat stat = _client.statObject( strBucketName, item.objectName( ) );
                     myFile.setContentType( stat.contentType( ) );
+                    myFile.setSize( stat.length(  ) );
                     urlItem.addParameter( PARAMETER_FILENAME, item.objectName(  ) );
                     String strUrl = urlItem.getUrl(  );
                     myFile.setUrl( strUrl );

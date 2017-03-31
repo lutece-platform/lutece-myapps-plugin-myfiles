@@ -86,6 +86,7 @@ public class DatabaseFileStorage implements FileStorage
                     MyFileLink myFileLink = new MyFileLink(  );
                     myFileLink.setName( myFileBlob.getName(  ) );
                     myFileLink.setContentType( myFileBlob.getContentType(  ) );
+                    myFileLink.setSize( myFileBlob.getSize(  ) );
                     urlItem.addParameter( PARAMETER_FILENAME, myFileBlob.getName(  ) );
                     String strUrl = urlItem.getUrl(  );
                     myFileLink.setUrl( strUrl );
