@@ -106,4 +106,12 @@ public interface IMyFileBlobDAO
     * @return boolean the existance of the bucket
     */
     boolean myFileBlobExists( String strNameBucket, String strNameFile, Plugin plugin );
+
+    /**
+    * Returns true if the bucket exists
+    * @param strKey The key of bucket
+    * @param plugin The Plugin object
+    * @return boolean the existance of the bucket
+    */
+    boolean bucketExists( String strKey, Plugin plugin );
 }

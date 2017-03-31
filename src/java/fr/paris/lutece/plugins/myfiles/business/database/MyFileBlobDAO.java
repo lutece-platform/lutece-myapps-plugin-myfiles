@@ -55,6 +55,7 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
     private static final String SQL_QUERY_SELECTALL = "SELECT id_myfile_blob, bucket_name_id, file_content_type, file_size, file_name, blob_value FROM myfiles_myfileblob";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_myfile_blob FROM myfiles_myfileblob";
     private static final String SQL_QUERY_COUNT_FILES = "SELECT COUNT(*) FROM myfiles_myfileblob WHERE bucket_name_id = ? AND file_name = ?";
+    private static final String SQL_QUERY_COUNT_BUCKETS = "SELECT COUNT(*) FROM myfiles_myfileblob WHERE bucket_name_id = ?";
     private static final String SQL_QUERY_SELECTBYNAME = "SELECT id_myfile_blob, bucket_name_id, file_content_type, file_size, file_name, blob_value FROM myfiles_myfileblob WHERE bucket_name_id = ? AND file_name = ?";
 
     /**
@@ -245,6 +246,33 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_FILES, plugin );
         daoUtil.setString( 1, strNameBucket );
         daoUtil.setString( 2, strNameFile );
+
+        int nCounted = 0;
+        daoUtil.executeQuery(  );
+
+        if ( daoUtil.next(  ) )
+        {
+            nCounted = daoUtil.getInt( 1 );
+        }
+
+        daoUtil.free(  );
+
+        if ( nCounted < 1 )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean bucketExists( String strKey, Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_BUCKETS, plugin );
+        daoUtil.setString( 1, strKey );
 
         int nCounted = 0;
         daoUtil.executeQuery(  );

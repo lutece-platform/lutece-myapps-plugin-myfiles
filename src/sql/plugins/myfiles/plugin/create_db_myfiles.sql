@@ -1,14 +1,4 @@
 --
--- Structure for table myfiles_bucket
---
-
-DROP TABLE IF EXISTS myfiles_bucket;
-CREATE TABLE myfiles_bucket (
-name_id_bucket VARCHAR(100) NOT NULL,
-PRIMARY KEY (name_id_bucket)
-);
-
---
 -- Structure for table myfiles_myfileblob
 --
 

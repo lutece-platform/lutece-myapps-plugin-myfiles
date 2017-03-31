@@ -138,5 +138,15 @@ public final class MyFileBlobHome
     {
         return _dao.myFileBlobExists( strNameBucket, strNameFile, _plugin );
     }
+
+    /**
+    * Returns true if the bucket exists
+    * @param strKey The key of bucket
+    * @return boolean the existance of the bucket
+    */
+    public static boolean bucketExists( String strKey )
+    {
+        return _dao.bucketExists( strKey, _plugin );
+    }
 }
 

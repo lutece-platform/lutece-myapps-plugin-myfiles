@@ -34,13 +34,11 @@
 
 package fr.paris.lutece.plugins.myfiles.service.storage.impl;
 
-import fr.paris.lutece.plugins.myfiles.business.database.BucketHome;
 import fr.paris.lutece.plugins.myfiles.business.MyFileData;
 import fr.paris.lutece.plugins.myfiles.business.MyFileLink;
 import fr.paris.lutece.plugins.myfiles.service.storage.FileStorage;
 import fr.paris.lutece.plugins.myfiles.service.storage.NoStorageException;
 import fr.paris.lutece.plugins.myfiles.service.storage.StorageException;
-import fr.paris.lutece.plugins.myfiles.business.database.Bucket;
 import fr.paris.lutece.plugins.myfiles.business.database.MyFileBlob;
 import fr.paris.lutece.plugins.myfiles.business.database.MyFileBlobHome;
 import fr.paris.lutece.util.url.UrlItem;
@@ -76,7 +74,7 @@ public class DatabaseFileStorage implements FileStorage
 
         String strBucketName = strUserId;
         UrlItem urlItem = new UrlItem( PATH_SERVLET_DOWNLOAD );
-        boolean bExist = BucketHome.bucketExists( strBucketName );
+        boolean bExist = MyFileBlobHome.bucketExists( strBucketName );
         if ( bExist )
         {
             List<MyFileBlob> myFileBlobList = MyFileBlobHome.getMyFileBlobsList(  );
@@ -111,7 +109,7 @@ public class DatabaseFileStorage implements FileStorage
     {
         MyFileData myFile = null ;
         String strBucketName = strUserId;
-        boolean bExist = BucketHome.bucketExists( strBucketName );
+        boolean bExist = MyFileBlobHome.bucketExists( strBucketName );
         if ( bExist )
         {
             myFile = new MyFileData(  );
@@ -141,9 +139,6 @@ public class DatabaseFileStorage implements FileStorage
     @Override
     public void createStorage( String strNameId ) throws StorageException
     {
-        Bucket bucket = new Bucket(  );
-        bucket.setNameId( strNameId );
-        BucketHome.create( bucket );
     }
 
     /**
@@ -153,7 +148,7 @@ public class DatabaseFileStorage implements FileStorage
     public void addFile( String strUserId, MyFileData myFileData ) throws StorageException
     {
         String strBucketName = strUserId;
-        boolean bBucketExist = BucketHome.bucketExists( strBucketName );
+        boolean bBucketExist = MyFileBlobHome.bucketExists( strBucketName );
         if ( bBucketExist )
         {
             boolean bFileExist = MyFileBlobHome.myFileBlobExists( strBucketName, strUserId );
