@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.myfiles.service.storage;
 
 import fr.paris.lutece.plugins.myfiles.business.MyFileData;
 import fr.paris.lutece.plugins.myfiles.business.MyFileLink;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -63,6 +64,16 @@ public interface FileStorage
      * @throws StorageException If an error occurs during the storage access
      */
     void createStorage( String strNameId ) throws StorageException;
+
+    /**
+     * Gets a file for a given user
+     * @param strUserId The user ID
+     * @param strFilename The filename
+     * @return The file
+     * @throws NoStorageException If no storage available for the user
+     * @throws StorageException  If an error occurs during the storage access
+     */
+    MyFileData getFile( String strUserId, String strFilename ) throws NoStorageException, StorageException;
 
     /**
      * Gets all files for a given user

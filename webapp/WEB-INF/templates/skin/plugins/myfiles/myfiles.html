@@ -36,7 +36,19 @@
                                 <#break>
                         </#switch>
                     </#if>
-                <span class="${class}"> </span> &nbsp; <a href="${file.url}"> ${file.name} </a>
+                    <#if file.size??>
+                        <#if file.size < 1024 >
+                            <#assign octetUnit="o"> 
+                            <#assign octetNumber=file.size> 
+                        <#elseif file.size < 1024 * 1024 >
+                            <#assign octetUnit="Ko">
+                            <#assign octetNumber=file.size/1024>
+                        <#else >
+                            <#assign octetUnit="Mo">
+                            <#assign octetNumber=file.size/(1024*1024)>
+                        </#if>
+                    </#if>
+                <span class="${class}"> </span> &nbsp; <a href="${file.url}"> ${file.name} <#if file.size?has_content>(${octetNumber?string["0,#"]} ${octetUnit})</#if></a>
                 <div class="pull-right">
                     <a href="jsp/site/Portal.jsp?page=myfiles&action=removeFile&filename=${file.name}" title="#i18n{portal.util.labelDelete}">
                     <@icon style="trash" />
