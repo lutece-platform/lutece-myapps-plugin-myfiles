@@ -134,8 +134,8 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
     public MyFileBlob loadByName( String strNameBucket, String strNameFile, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTBYNAME, plugin );
-        daoUtil.setString(1 , strNameBucket );
-        daoUtil.setString(1 , strNameFile );
+        daoUtil.setString( 1 , strNameBucket );
+        daoUtil.setString( 2 , strNameFile );
         daoUtil.executeQuery( );
         MyFileBlob myFileBlob = null;
 
