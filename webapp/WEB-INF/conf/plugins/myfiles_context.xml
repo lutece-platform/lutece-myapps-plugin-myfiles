@@ -7,7 +7,7 @@
 
        <bean id="myfiles.storage" class="fr.paris.lutece.plugins.myfiles.service.storage.impl.DatabaseFileStorage" />
        <!--Replace with this bean for storage in a Minio server
-       <bean id="myfiles.storage" class="fr.paris.lutece.plugins.myfiles.service.storage.impl.DatabaseFileStorage" />
+       <bean id="myfiles.storage" class="fr.paris.lutece.plugins.myfiles.service.storage.impl.MinioFileStorage" />
        -->
        <bean id="myfiles.myFileBlobDAO" class="fr.paris.lutece.plugins.myfiles.business.database.MyFileBlobDAO" />
        
