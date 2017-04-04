@@ -9,7 +9,6 @@
        <!--Replace with this bean for storage in a Minio server
        <bean id="myfiles.storage" class="fr.paris.lutece.plugins.myfiles.service.storage.impl.DatabaseFileStorage" />
        -->
-       <bean id="myfiles.bucketDAO" class="fr.paris.lutece.plugins.myfiles.business.database.BucketDAO" />
        <bean id="myfiles.myFileBlobDAO" class="fr.paris.lutece.plugins.myfiles.business.database.MyFileBlobDAO" />
        
 </beans>
