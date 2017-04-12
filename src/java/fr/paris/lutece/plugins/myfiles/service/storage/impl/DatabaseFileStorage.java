@@ -55,14 +55,7 @@ public class DatabaseFileStorage implements FileStorage
 
     private static final String PARAMETER_FILENAME = "filename";
 
-    private static final long FILE_MAX_SIZE = 16 * 1024 * 1024 ;
-
-    /**
-     * Constructor
-     */
-    public DatabaseFileStorage( )
-    {
-    }
+    private static final long FILE_MAX_SIZE = 16 * 1024 * 1024;
 
     /**
      * {@inheritDoc }
@@ -77,18 +70,18 @@ public class DatabaseFileStorage implements FileStorage
         boolean bExist = MyFileBlobHome.bucketExists( strBucketName );
         if ( bExist )
         {
-            List<MyFileBlob> myFileBlobList = MyFileBlobHome.getMyFileBlobsList(  );
+            List<MyFileBlob> myFileBlobList = MyFileBlobHome.getMyFileBlobsList( );
 
-            for( MyFileBlob myFileBlob : myFileBlobList )
+            for ( MyFileBlob myFileBlob : myFileBlobList )
             {
-                if( myFileBlob.getBucketNameId(  ).equals( strBucketName ) )
+                if ( myFileBlob.getBucketNameId( ).equals( strBucketName ) )
                 {
-                    MyFileLink myFileLink = new MyFileLink(  );
-                    myFileLink.setName( myFileBlob.getName(  ) );
-                    myFileLink.setContentType( myFileBlob.getContentType(  ) );
-                    myFileLink.setSize( myFileBlob.getSize(  ) );
-                    urlItem.addParameter( PARAMETER_FILENAME, myFileBlob.getName(  ) );
-                    String strUrl = urlItem.getUrl(  );
+                    MyFileLink myFileLink = new MyFileLink( );
+                    myFileLink.setName( myFileBlob.getName( ) );
+                    myFileLink.setContentType( myFileBlob.getContentType( ) );
+                    myFileLink.setSize( myFileBlob.getSize( ) );
+                    urlItem.addParameter( PARAMETER_FILENAME, myFileBlob.getName( ) );
+                    String strUrl = urlItem.getUrl( );
                     myFileLink.setUrl( strUrl );
                     listFiles.add( myFileLink );
                 }
@@ -108,29 +101,29 @@ public class DatabaseFileStorage implements FileStorage
     @Override
     public MyFileData getFile( String strUserId, String strFilename ) throws NoStorageException, StorageException
     {
-        MyFileData myFile = null ;
+        MyFileData myFile = null;
         String strBucketName = strUserId;
         boolean bExist = MyFileBlobHome.bucketExists( strBucketName );
         if ( bExist )
         {
-            myFile = new MyFileData(  );
+            myFile = new MyFileData( );
             MyFileBlob myFileBlob = MyFileBlobHome.findByName( strBucketName, strFilename );
 
-            if( myFileBlob == null )
+            if ( myFileBlob == null )
             {
                 throw new StorageException( "Error getting file : File not found" );
             }
 
             myFile.setName( strFilename );
-            myFile.setContentType( myFileBlob.getContentType(  ) );
-            myFile.setSize( myFileBlob.getSize(  ) );
-            myFile.setInputstream( myFileBlob.getInputstream(  ) );
+            myFile.setContentType( myFileBlob.getContentType( ) );
+            myFile.setSize( myFileBlob.getSize( ) );
+            myFile.setInputstream( myFileBlob.getInputstream( ) );
         }
         else
         {
             throw new NoStorageException( );
         }
-        
+
         return myFile;
     }
 
@@ -140,6 +133,7 @@ public class DatabaseFileStorage implements FileStorage
     @Override
     public void createStorage( String strNameId ) throws StorageException
     {
+        // Nothing to do
     }
 
     /**
@@ -153,22 +147,22 @@ public class DatabaseFileStorage implements FileStorage
         if ( bBucketExist )
         {
             boolean bFileExist = MyFileBlobHome.myFileBlobExists( strBucketName, strUserId );
-            if( bFileExist )
+            if ( bFileExist )
             {
                 throw new StorageException( "Error adding file : File already exists" );
             }
 
-            if( myFileData.getSize(  ) > FILE_MAX_SIZE )
+            if ( myFileData.getSize( ) > FILE_MAX_SIZE )
             {
                 throw new StorageException( "Error adding file : File size is too big" );
             }
 
-            MyFileBlob myFileBlob = new MyFileBlob(  );            
+            MyFileBlob myFileBlob = new MyFileBlob( );
             myFileBlob.setBucketNameId( strBucketName );
-            myFileBlob.setName( myFileData.getName(  ) );
-            myFileBlob.setSize( myFileData.getSize(  ) );
-            myFileBlob.setContentType( myFileData.getContentType(  ) );
-            myFileBlob.setInputstream( myFileData.getInputstream(  ) );
+            myFileBlob.setName( myFileData.getName( ) );
+            myFileBlob.setSize( myFileData.getSize( ) );
+            myFileBlob.setContentType( myFileData.getContentType( ) );
+            myFileBlob.setInputstream( myFileData.getInputstream( ) );
             MyFileBlobHome.create( myFileBlob );
         }
     }
@@ -182,13 +176,13 @@ public class DatabaseFileStorage implements FileStorage
         String strBucketName = strUserId;
 
         MyFileBlob myFileBlob = MyFileBlobHome.findByName( strBucketName, strFilename );
-        
-        if( myFileBlob == null )
+
+        if ( myFileBlob == null )
         {
             throw new StorageException( "Error removing file : File not found" );
         }
-        
-        MyFileBlobHome.remove( myFileBlob.getId(  ) );
+
+        MyFileBlobHome.remove( myFileBlob.getId( ) );
     }
 
 }

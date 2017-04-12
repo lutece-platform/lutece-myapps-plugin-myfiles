@@ -34,17 +34,14 @@
 package fr.paris.lutece.plugins.myfiles.web.servlet;
 
 import fr.paris.lutece.plugins.myfiles.business.MyFileData;
-import fr.paris.lutece.plugins.myfiles.service.storage.FileStorage;
 import fr.paris.lutece.plugins.myfiles.service.storage.FileStorageService;
 import fr.paris.lutece.plugins.myfiles.service.storage.NoStorageException;
 import fr.paris.lutece.plugins.myfiles.service.storage.StorageException;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.OutputStream;
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
@@ -59,62 +56,68 @@ import javax.servlet.http.HttpServletResponse;
 public class Download extends HttpServlet
 {
 
-    private static final String PARAMETER_FILENAME = "filename";
     public static final int BUFFER_SIZE = 10240;
-            
+    private static final String PARAMETER_FILENAME = "filename";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * 
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException the servlet Exception
-     * @throws IOException the io exception
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
     protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
+        String strFilename = request.getParameter( PARAMETER_FILENAME );
 
-        if ( user != null )
+        if ( user != null && strFilename != null )
         {
-            String strFilename = request.getParameter( PARAMETER_FILENAME );
+            BufferedInputStream bis = null;
+            BufferedOutputStream bos = null;
 
-            if ( strFilename != null )
+            try
             {
-                BufferedInputStream bis = null;
-                BufferedOutputStream bos = null;
+                MyFileData myFile = FileStorageService.instance( ).getFile( user.getName( ), strFilename );
+                ServletContext context = getServletConfig( ).getServletContext( );
+                String strMimetype = context.getMimeType( myFile.getContentType( ) );
+                String strSize = Long.toString( myFile.getSize( ) );
+                response.setContentType( ( strMimetype != null ) ? strMimetype : "application/octet-stream" );
+                response.setHeader( "Content-Length", ( strSize != null ) ? strSize : "" );
+                response.setHeader( "Content-Disposition", "attachement; filename=\"" + strFilename + "\"" );
 
-                try
-                {                
-                    MyFileData myFile = FileStorageService.instance(  ).getFile( user.getName(  ), strFilename );
-                    ServletContext context = getServletConfig( ).getServletContext( );
-                    String strMimetype = context.getMimeType( myFile.getContentType() );
-                    String strSize = Long.toString( myFile.getSize(  ) );
-                    response.setContentType( ( strMimetype != null ) ? strMimetype : "application/octet-stream" );
-                    response.setHeader( "Content-Length", ( strSize != null ) ? strSize : "" );
-                    response.setHeader( "Content-Disposition", "attachement; filename=\"" + strFilename + "\"" );
+                bis = new BufferedInputStream( myFile.getInputstream( ), BUFFER_SIZE );
+                bos = new BufferedOutputStream( response.getOutputStream( ), BUFFER_SIZE );
 
-                    bis = new BufferedInputStream( myFile.getInputstream(  ), BUFFER_SIZE );
-                    bos = new BufferedOutputStream( response.getOutputStream(), BUFFER_SIZE );
+                byte [ ] buffer = new byte [ BUFFER_SIZE];
 
-                    byte[] buffer = new byte[ BUFFER_SIZE ];
-
-                    while ( bis.read( buffer ) > 0 )
-                    {
-                        bos.write( buffer );
-                    }
-                }
-                catch( NoStorageException ex )
+                while ( bis.read( buffer ) > 0 )
                 {
-                    AppLogService.error( "MyFIles - No storage found : " + ex.getMessage( ), ex );
+                    bos.write( buffer );
                 }
-                catch( StorageException ex )
+            }
+            catch( NoStorageException ex )
+            {
+                AppLogService.error( "MyFIles - No storage found : " + ex.getMessage( ), ex );
+            }
+            catch( StorageException ex )
+            {
+                AppLogService.error( "MyFIles - Error getting files : " + ex.getMessage( ), ex );
+            }
+            finally
+            {
+                if ( bis != null )
                 {
-                    AppLogService.error( "MyFIles - Error getting files : " + ex.getMessage( ), ex );
+                    bis.close( );
                 }
-                finally
+                if ( bos != null )
                 {
-                    if( bis != null ) bis.close();
-                    if( bos != null ) bos.close();
+                    bos.close( );
                 }
             }
         }

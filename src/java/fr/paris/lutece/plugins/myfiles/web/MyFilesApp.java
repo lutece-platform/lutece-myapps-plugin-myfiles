@@ -77,7 +77,8 @@ public class MyFilesApp extends MVCApplication
      * @param request
      *            The HTTP request
      * @return The view
-     * @throws UserNotSignedException If the user is not signed
+     * @throws UserNotSignedException
+     *             If the user is not signed
      */
     @View( value = VIEW_HOME, defaultView = true )
     public XPage viewHome( HttpServletRequest request ) throws UserNotSignedException
@@ -105,9 +106,12 @@ public class MyFilesApp extends MVCApplication
 
     /**
      * Create a storage for the current user
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return XPage
-     * @throws UserNotSignedException If the user is not signed 
+     * @throws UserNotSignedException
+     *             If the user is not signed
      */
     @Action( ACTION_CREATE_STORAGE )
     public XPage doCreateStorage( HttpServletRequest request ) throws UserNotSignedException
@@ -127,9 +131,12 @@ public class MyFilesApp extends MVCApplication
 
     /**
      * Add file to the storage of the current user
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return XPage
-     * @throws UserNotSignedException If the user is not signed 
+     * @throws UserNotSignedException
+     *             If the user is not signed
      */
     @Action( ACTION_ADD_FILE )
     public XPage doAddFile( HttpServletRequest request ) throws UserNotSignedException
@@ -162,9 +169,12 @@ public class MyFilesApp extends MVCApplication
 
     /**
      * Remove file from the storage of the current user
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return XPage
-     * @throws UserNotSignedException If the user is not signed 
+     * @throws UserNotSignedException
+     *             If the user is not signed
      */
     @Action( ACTION_REMOVE_FILE )
     public XPage doRemoveFile( HttpServletRequest request ) throws UserNotSignedException
@@ -184,10 +194,13 @@ public class MyFilesApp extends MVCApplication
     }
 
     /**
-     * Get the current connected user 
-     * @param request The HTTP request
+     * Get the current connected user
+     * 
+     * @param request
+     *            The HTTP request
      * @return The user
-     * @throws UserNotSignedException If the user is not signed
+     * @throws UserNotSignedException
+     *             If the user is not signed
      */
     private LuteceUser getUser( HttpServletRequest request ) throws UserNotSignedException
     {

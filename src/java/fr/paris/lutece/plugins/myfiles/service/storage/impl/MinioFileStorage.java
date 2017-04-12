@@ -106,7 +106,7 @@ public class MinioFileStorage implements FileStorage
         List<MyFileLink> listFiles = new ArrayList<>( );
         try
         {
-            String strBucketName = strUserId.toLowerCase();
+            String strBucketName = strUserId.toLowerCase( );
             UrlItem urlItem = new UrlItem( PATH_SERVLET_DOWNLOAD );
             boolean bExist = _client.bucketExists( strBucketName );
             if ( bExist )
@@ -118,9 +118,9 @@ public class MinioFileStorage implements FileStorage
                     myFile.setName( item.objectName( ) );
                     ObjectStat stat = _client.statObject( strBucketName, item.objectName( ) );
                     myFile.setContentType( stat.contentType( ) );
-                    myFile.setSize( stat.length(  ) );
-                    urlItem.addParameter( PARAMETER_FILENAME, item.objectName(  ) );
-                    String strUrl = urlItem.getUrl(  );
+                    myFile.setSize( stat.length( ) );
+                    urlItem.addParameter( PARAMETER_FILENAME, item.objectName( ) );
+                    String strUrl = urlItem.getUrl( );
                     myFile.setUrl( strUrl );
                     listFiles.add( myFile );
                 }
@@ -130,8 +130,8 @@ public class MinioFileStorage implements FileStorage
                 throw new NoStorageException( );
             }
         }
-        catch( InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException
-                | InvalidKeyException | NoResponseException | XmlPullParserException | ErrorResponseException | InternalException ex )
+        catch( InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException | NoResponseException
+                | XmlPullParserException | ErrorResponseException | InternalException ex )
         {
             throw new StorageException( "Error getting files : " + ex.getMessage( ), ex );
         }
@@ -144,20 +144,20 @@ public class MinioFileStorage implements FileStorage
      */
     @Override
     public MyFileData getFile( String strUserId, String strFilename ) throws NoStorageException, StorageException
-    {       
-        MyFileData myFile = null ;
-        
+    {
+        MyFileData myFile = null;
+
         try
         {
             String strBucketName = strUserId;
             boolean bExist = _client.bucketExists( strBucketName );
             if ( bExist )
             {
-                myFile = new MyFileData(  );
+                myFile = new MyFileData( );
                 ObjectStat stat = _client.statObject( strBucketName, strFilename );
                 myFile.setName( strFilename );
                 myFile.setContentType( stat.contentType( ) );
-                myFile.setSize( stat.length(  ) );
+                myFile.setSize( stat.length( ) );
                 InputStream inputStream = _client.getObject( strBucketName, strFilename );
                 myFile.setInputstream( inputStream );
             }
@@ -166,12 +166,12 @@ public class MinioFileStorage implements FileStorage
                 throw new NoStorageException( );
             }
         }
-        catch( InvalidArgumentException | InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException | NoResponseException
-                | XmlPullParserException | ErrorResponseException | InternalException ex )
+        catch( InvalidArgumentException | InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException
+                | NoResponseException | XmlPullParserException | ErrorResponseException | InternalException ex )
         {
             throw new StorageException( "Error getting file : " + ex.getMessage( ), ex );
         }
-        
+
         return myFile;
     }
 
@@ -183,7 +183,7 @@ public class MinioFileStorage implements FileStorage
     {
         try
         {
-            _client.makeBucket( strNameId.toLowerCase() );
+            _client.makeBucket( strNameId.toLowerCase( ) );
         }
         catch( InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException | NoResponseException
                 | XmlPullParserException | ErrorResponseException | InternalException ex )
@@ -200,7 +200,7 @@ public class MinioFileStorage implements FileStorage
     {
         try
         {
-            String strBucketName = strUserId.toLowerCase();
+            String strBucketName = strUserId.toLowerCase( );
             _client.putObject( strBucketName, myFileData.getName( ), myFileData.getInputstream( ), myFileData.getSize( ), myFileData.getContentType( ) );
         }
         catch( InvalidArgumentException | InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException
@@ -218,7 +218,7 @@ public class MinioFileStorage implements FileStorage
     {
         try
         {
-            String strBucketName = strUserId.toLowerCase();
+            String strBucketName = strUserId.toLowerCase( );
             _client.removeObject( strBucketName, strFilename );
         }
         catch( InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException | NoResponseException

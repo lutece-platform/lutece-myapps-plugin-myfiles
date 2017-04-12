@@ -31,11 +31,10 @@
  *
  * License 1.0
  */
- 
+
 package fr.paris.lutece.plugins.myfiles.business.database;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.util.ReferenceList;
 import java.util.List;
 
 /**
@@ -45,73 +44,100 @@ public interface IMyFileBlobDAO
 {
     /**
      * Insert a new record in the table.
-     * @param myFileBlob instance of the MyFileBlob object to insert
-     * @param plugin the Plugin
+     * 
+     * @param myFileBlob
+     *            instance of the MyFileBlob object to insert
+     * @param plugin
+     *            the Plugin
      */
     void insert( MyFileBlob myFileBlob, Plugin plugin );
 
     /**
      * Update the record in the table
-     * @param myFileBlob the reference of the MyFileBlob
-     * @param plugin the Plugin
+     * 
+     * @param myFileBlob
+     *            the reference of the MyFileBlob
+     * @param plugin
+     *            the Plugin
      */
     void store( MyFileBlob myFileBlob, Plugin plugin );
 
     /**
      * Delete a record from the table
-     * @param nKey The identifier of the MyFileBlob to delete
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the MyFileBlob to delete
+     * @param plugin
+     *            the Plugin
      */
     void delete( int nKey, Plugin plugin );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
-     * @param nKey The identifier of the myFileBlob
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the myFileBlob
+     * @param plugin
+     *            the Plugin
      * @return The instance of the myFileBlob
      */
     MyFileBlob load( int nKey, Plugin plugin );
 
     /**
      * Load the data from the table
-     * @param strNameBucket The myFileBlob bucket name
-     * @param strNameFile The myFileBlob name
-     * @param plugin the Plugin
+     * 
+     * @param strNameBucket
+     *            The myFileBlob bucket name
+     * @param strNameFile
+     *            The myFileBlob name
+     * @param plugin
+     *            the Plugin
      * @return The instance of the myFileBlob
      */
     MyFileBlob loadByName( String strNameBucket, String strNameFile, Plugin plugin );
 
     /**
      * Load the data of all the myFileBlob objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the data of all the myFileBlob objects
      */
     List<MyFileBlob> selectMyFileBlobsList( Plugin plugin );
-    
+
     /**
      * Load the id of all the myFileBlob objects and returns them as a list
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The list which contains the id of all the myFileBlob objects
      */
     List<Integer> selectIdMyFileBlobsList( Plugin plugin );
 
     /**
-    * Returns true if the file blob exists
-    * @param strNameBucket The key of bucket's file blob
-    * @param strNameFile The key of file blob
-    * @param plugin The Plugin object
-    * @return boolean the existance of the bucket
-    */
+     * Returns true if the file blob exists
+     * 
+     * @param strNameBucket
+     *            The key of bucket's file blob
+     * @param strNameFile
+     *            The key of file blob
+     * @param plugin
+     *            The Plugin object
+     * @return boolean the existance of the bucket
+     */
     boolean myFileBlobExists( String strNameBucket, String strNameFile, Plugin plugin );
 
     /**
-    * Returns true if the bucket exists
-    * @param strKey The key of bucket
-    * @param plugin The Plugin object
-    * @return boolean the existance of the bucket
-    */
+     * Returns true if the bucket exists
+     * 
+     * @param strKey
+     *            The key of bucket
+     * @param plugin
+     *            The Plugin object
+     * @return boolean the existance of the bucket
+     */
     boolean bucketExists( String strKey, Plugin plugin );
 }

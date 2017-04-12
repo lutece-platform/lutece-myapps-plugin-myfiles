@@ -30,27 +30,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.myfiles.business.database;
 
 import fr.paris.lutece.plugins.myfiles.business.MyFileData;
-import javax.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
 import java.io.Serializable;
 
 /**
  * This is the business class for the object MyFileBlob
- */ 
+ */
 public class MyFileBlob extends MyFileData implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
+    // Variables declarations
     private int _nId;
     private String _strBucketNameId;
 
     /**
      * Returns the Id
+     * 
      * @return The Id
      */
     public int getId( )
@@ -60,15 +59,18 @@ public class MyFileBlob extends MyFileData implements Serializable
 
     /**
      * Sets the Id
-     * @param nId The Id
-     */ 
+     * 
+     * @param nId
+     *            The Id
+     */
     public void setId( int nId )
     {
         _nId = nId;
     }
-    
+
     /**
      * Returns the BucketNameId
+     * 
      * @return The BucketNameId
      */
     public String getBucketNameId( )
@@ -78,8 +80,10 @@ public class MyFileBlob extends MyFileData implements Serializable
 
     /**
      * Sets the BucketNameId
-     * @param strBucketNameId The BucketNameId
-     */ 
+     * 
+     * @param strBucketNameId
+     *            The BucketNameId
+     */
     public void setBucketNameId( String strBucketNameId )
     {
         _strBucketNameId = strBucketNameId;

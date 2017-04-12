@@ -31,12 +31,11 @@
  *
  * License 1.0
  */
- package fr.paris.lutece.plugins.myfiles.business.database;
+package fr.paris.lutece.plugins.myfiles.business.database;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.util.ReferenceList;
 
 import java.util.List;
 
@@ -52,14 +51,16 @@ public final class MyFileBlobHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private MyFileBlobHome(  )
+    private MyFileBlobHome( )
     {
     }
 
     /**
      * Create an instance of the myFileBlob class
-     * @param myFileBlob The instance of the MyFileBlob which contains the informations to store
-     * @return The  instance of myFileBlob which has been created with its primary key.
+     * 
+     * @param myFileBlob
+     *            The instance of the MyFileBlob which contains the informations to store
+     * @return The instance of myFileBlob which has been created with its primary key.
      */
     public static MyFileBlob create( MyFileBlob myFileBlob )
     {
@@ -70,8 +71,10 @@ public final class MyFileBlobHome
 
     /**
      * Update of the myFileBlob which is specified in parameter
-     * @param myFileBlob The instance of the MyFileBlob which contains the data to store
-     * @return The instance of the  myFileBlob which has been updated
+     * 
+     * @param myFileBlob
+     *            The instance of the MyFileBlob which contains the data to store
+     * @return The instance of the myFileBlob which has been updated
      */
     public static MyFileBlob update( MyFileBlob myFileBlob )
     {
@@ -82,7 +85,9 @@ public final class MyFileBlobHome
 
     /**
      * Remove the myFileBlob whose identifier is specified in parameter
-     * @param nKey The myFileBlob Id
+     * 
+     * @param nKey
+     *            The myFileBlob Id
      */
     public static void remove( int nKey )
     {
@@ -91,36 +96,43 @@ public final class MyFileBlobHome
 
     /**
      * Returns an instance of a myFileBlob whose identifier is specified in parameter
-     * @param nKey The myFileBlob primary key
+     * 
+     * @param nKey
+     *            The myFileBlob primary key
      * @return an instance of MyFileBlob
      */
     public static MyFileBlob findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, _plugin);
+        return _dao.load( nKey, _plugin );
     }
 
     /**
      * Returns an instance of a myFileBlob whose identifier is specified in parameter
-     * @param strNameBucket The myFileBlob bucket name
-     * @param strNameFile The myFileBlob name
+     * 
+     * @param strNameBucket
+     *            The myFileBlob bucket name
+     * @param strNameFile
+     *            The myFileBlob name
      * @return an instance of MyFileBlob
      */
     public static MyFileBlob findByName( String strNameBucket, String strNameFile )
     {
-        return _dao.loadByName( strNameBucket, strNameFile, _plugin);
+        return _dao.loadByName( strNameBucket, strNameFile, _plugin );
     }
 
     /**
      * Load the data of all the myFileBlob objects and returns them as a list
+     * 
      * @return the list which contains the data of all the myFileBlob objects
      */
     public static List<MyFileBlob> getMyFileBlobsList( )
     {
         return _dao.selectMyFileBlobsList( _plugin );
     }
-    
+
     /**
      * Load the id of all the myFileBlob objects and returns them as a list
+     * 
      * @return the list which contains the id of all the myFileBlob objects
      */
     public static List<Integer> getIdMyFileBlobsList( )
@@ -129,24 +141,28 @@ public final class MyFileBlobHome
     }
 
     /**
-    * Returns true if the file blob exists
-    * @param strNameBucket The key of bucket's file blob
-    * @param strNameFile The key of file blob
-    * @return boolean the existance of the bucket
-    */
+     * Returns true if the file blob exists
+     * 
+     * @param strNameBucket
+     *            The key of bucket's file blob
+     * @param strNameFile
+     *            The key of file blob
+     * @return boolean the existance of the bucket
+     */
     public static boolean myFileBlobExists( String strNameBucket, String strNameFile )
     {
         return _dao.myFileBlobExists( strNameBucket, strNameFile, _plugin );
     }
 
     /**
-    * Returns true if the bucket exists
-    * @param strKey The key of bucket
-    * @return boolean the existance of the bucket
-    */
+     * Returns true if the bucket exists
+     * 
+     * @param strKey
+     *            The key of bucket
+     * @return boolean the existance of the bucket
+     */
     public static boolean bucketExists( String strKey )
     {
         return _dao.bucketExists( strKey, _plugin );
     }
 }
-

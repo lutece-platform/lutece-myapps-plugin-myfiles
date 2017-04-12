@@ -47,18 +47,19 @@ public final class FileStorageService
     /**
      * Private constructor
      */
-    private FileStorageService()
+    private FileStorageService( )
     {
     }
-    
+
     /**
      * Get the unique instance
+     * 
      * @return The instance
      */
     public static FileStorage instance( )
     {
         synchronized( FileStorageService.class )
-        {    
+        {
             if ( _storage == null )
             {
                 _storage = SpringContextService.getBean( BEAN_STORAGE );

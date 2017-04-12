@@ -35,7 +35,6 @@
 package fr.paris.lutece.plugins.myfiles.business.database;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
@@ -60,21 +59,23 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
 
     /**
      * Generates a new primary key
-     * @param plugin The Plugin
+     * 
+     * @param plugin
+     *            The Plugin
      * @return The new primary key
      */
-    public int newPrimaryKey( Plugin plugin)
+    public int newPrimaryKey( Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK , plugin  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
         daoUtil.executeQuery( );
         int nKey = 1;
 
-        if( daoUtil.next( ) )
+        if ( daoUtil.next( ) )
         {
             nKey = daoUtil.getInt( 1 ) + 1;
         }
 
-        daoUtil.free();
+        daoUtil.free( );
         return nKey;
     }
 
@@ -87,13 +88,13 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
         myFileBlob.setId( newPrimaryKey( plugin ) );
         int nIndex = 1;
-        
-        daoUtil.setInt( nIndex++ , myFileBlob.getId( ) );
-        daoUtil.setString( nIndex++ , myFileBlob.getBucketNameId( ) );
-        daoUtil.setString( nIndex++ , myFileBlob.getContentType( ) );
-        daoUtil.setLong( nIndex++ , myFileBlob.getSize( ) );
-        daoUtil.setString( nIndex++ , myFileBlob.getName( ) );
-        daoUtil.setBinaryStream( nIndex++ , myFileBlob.getInputstream( ) );
+
+        daoUtil.setInt( nIndex++, myFileBlob.getId( ) );
+        daoUtil.setString( nIndex++, myFileBlob.getBucketNameId( ) );
+        daoUtil.setString( nIndex++, myFileBlob.getContentType( ) );
+        daoUtil.setLong( nIndex++, myFileBlob.getSize( ) );
+        daoUtil.setString( nIndex++, myFileBlob.getName( ) );
+        daoUtil.setBinaryStream( nIndex++, myFileBlob.getInputstream( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -106,15 +107,15 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
     public MyFileBlob load( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setInt( 1 , nKey );
+        daoUtil.setInt( 1, nKey );
         daoUtil.executeQuery( );
         MyFileBlob myFileBlob = null;
 
         if ( daoUtil.next( ) )
         {
-            myFileBlob = new MyFileBlob();
+            myFileBlob = new MyFileBlob( );
             int nIndex = 1;
-            
+
             myFileBlob.setId( daoUtil.getInt( nIndex++ ) );
             myFileBlob.setBucketNameId( daoUtil.getString( nIndex++ ) );
             myFileBlob.setContentType( daoUtil.getString( nIndex++ ) );
@@ -134,16 +135,16 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
     public MyFileBlob loadByName( String strNameBucket, String strNameFile, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTBYNAME, plugin );
-        daoUtil.setString( 1 , strNameBucket );
-        daoUtil.setString( 2 , strNameFile );
+        daoUtil.setString( 1, strNameBucket );
+        daoUtil.setString( 2, strNameFile );
         daoUtil.executeQuery( );
         MyFileBlob myFileBlob = null;
 
         if ( daoUtil.next( ) )
         {
-            myFileBlob = new MyFileBlob();
+            myFileBlob = new MyFileBlob( );
             int nIndex = 1;
-            
+
             myFileBlob.setId( daoUtil.getInt( nIndex++ ) );
             myFileBlob.setBucketNameId( daoUtil.getString( nIndex++ ) );
             myFileBlob.setContentType( daoUtil.getString( nIndex++ ) );
@@ -163,7 +164,7 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
     public void delete( int nKey, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setInt( 1 , nKey );
+        daoUtil.setInt( 1, nKey );
         daoUtil.executeUpdate( );
         daoUtil.free( );
     }
@@ -176,14 +177,14 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
         int nIndex = 1;
-        
-        daoUtil.setInt( nIndex++ , myFileBlob.getId( ) );
-        daoUtil.setString( nIndex++ , myFileBlob.getBucketNameId( ) );
-        daoUtil.setString( nIndex++ , myFileBlob.getContentType( ) );
-        daoUtil.setLong( nIndex++ , myFileBlob.getSize( ) );
-        daoUtil.setString( nIndex++ , myFileBlob.getName( ) );
-        daoUtil.setBinaryStream( nIndex++ , myFileBlob.getInputstream( ) );
-        daoUtil.setInt( nIndex , myFileBlob.getId( ) );
+
+        daoUtil.setInt( nIndex++, myFileBlob.getId( ) );
+        daoUtil.setString( nIndex++, myFileBlob.getBucketNameId( ) );
+        daoUtil.setString( nIndex++, myFileBlob.getContentType( ) );
+        daoUtil.setLong( nIndex++, myFileBlob.getSize( ) );
+        daoUtil.setString( nIndex++, myFileBlob.getName( ) );
+        daoUtil.setBinaryStream( nIndex++, myFileBlob.getInputstream( ) );
+        daoUtil.setInt( nIndex, myFileBlob.getId( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -195,15 +196,15 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
     @Override
     public List<MyFileBlob> selectMyFileBlobsList( Plugin plugin )
     {
-        List<MyFileBlob> myFileBlobList = new ArrayList<MyFileBlob>(  );
+        List<MyFileBlob> myFileBlobList = new ArrayList<MyFileBlob>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            MyFileBlob myFileBlob = new MyFileBlob(  );
+            MyFileBlob myFileBlob = new MyFileBlob( );
             int nIndex = 1;
-            
+
             myFileBlob.setId( daoUtil.getInt( nIndex++ ) );
             myFileBlob.setBucketNameId( daoUtil.getString( nIndex++ ) );
             myFileBlob.setContentType( daoUtil.getString( nIndex++ ) );
@@ -217,7 +218,7 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
         daoUtil.free( );
         return myFileBlobList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -226,9 +227,9 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
     {
         List<Integer> myFileBlobList = new ArrayList<Integer>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             myFileBlobList.add( daoUtil.getInt( 1 ) );
         }
@@ -248,21 +249,16 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
         daoUtil.setString( 2, strNameFile );
 
         int nCounted = 0;
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nCounted = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
-        if ( nCounted < 1 )
-        {
-            return false;
-        }
-
-        return true;
+        return nCounted > 0;
     }
 
     /**
@@ -275,20 +271,13 @@ public final class MyFileBlobDAO implements IMyFileBlobDAO
         daoUtil.setString( 1, strKey );
 
         int nCounted = 0;
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nCounted = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
-
-        if ( nCounted < 1 )
-        {
-            return false;
-        }
-
-        return true;
+        return nCounted > 0;
     }
 }
