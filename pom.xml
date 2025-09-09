@@ -26,7 +26,7 @@
         <dependency>
             <groupId>fr.paris.lutece</groupId>
             <artifactId>lutece-core</artifactId>
-            <version>[5.0.0,)</version>
+            <version>[5.0.0,7.9.9)</version>
             <type>lutece-core</type>
         </dependency>
         <dependency>
@@ -37,7 +37,7 @@
         <dependency>
             <artifactId>plugin-mydashboard</artifactId>
             <groupId>fr.paris.lutece.plugins</groupId>
-            <version>[1.1.0,)</version>
+            <version>[1.1.0,1.9.9)</version>
             <type>lutece-plugin</type>
         </dependency>
     </dependencies>
@@ -45,7 +45,7 @@
     <properties>
         <componentName>myfiles</componentName>
         <jiraProjectName>MYFILES</jiraProjectName>
-        <jiraComponentId></jiraComponentId>
+        <jiraComponentId />
     </properties>
     
     <scm>
